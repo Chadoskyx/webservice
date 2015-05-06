@@ -23,29 +23,27 @@ public class CsvUtils implements Serializable {
         throw new AssertionError();
     }
 
-    public static Map<String, Double> leerUf(String ruta) {
-        Map<String, Double> mapa = new HashMap<String, Double>();
+    public static Map<Calendar, Double> leerUf(String ruta) {
+        Map<Calendar, Double> mapa = new HashMap<Calendar, Double>();
         try {
             // Si existe la ruta
             if (StringUtils.isNotBlank(ruta)) {
                 CSVReader lector = new CSVReader(new FileReader(ruta), ';');
                 String[] linea;
                 while ((linea = lector.readNext()) != null) {
-                    Date fecha = FechaUtils.convertirFecha(linea[0]);
+                    Calendar fecha = FechaUtils.convertirCalendario(linea[0]);
                     Double uf = NumeroUtils.crearNumero(linea[1]);
                     
                     if (fecha != null && uf != null) {
-                        String llave = FechaUtils.obtenerFechaISOstr(fecha);
-                        mapa.put(llave, uf);
+                        mapa.put(fecha, uf);
                     }
                 }
                 lector.close();
             }
         } catch (Exception e) {
-            mapa = new HashMap<String, Double>();
+            mapa = new HashMap<Calendar, Double>();
             logger.error("Error al cargar mapa de UFs: {}", e.toString());
         }
         return mapa;
     }
-
 }
