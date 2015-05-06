@@ -41,8 +41,8 @@ public class CsvUtils implements Serializable {
                 String[] arreglo = line.split(cvsSplitBy);
 
                 Date fecha = FechaUtils.convertirFecha(arreglo[0]);
-                if (fecha != null) {
-                    Double uf = NumberUtils.createDouble(arreglo[1]);
+                Double uf = NumeroUtils.crearNumero(arreglo[1]);
+                if (fecha != null && uf != null) {
                     mapa.put(fecha, uf);
                 }
             }

@@ -96,7 +96,20 @@ public class FechaUtils implements Serializable {
         Date fecha = null;
         try {
             SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy", localeChileno);
-            fecha = formateador.parse(texto);
+            Date tiempo = formateador.parse(texto);
+            
+            Calendar calendario = new GregorianCalendar();
+            // seteamos el día definido por el usuario
+            calendario.setTime(tiempo);
+
+            // Seteamos las 0 horas, para que el objeto parte a primera hora del día
+            calendario.set(Calendar.HOUR, 0);
+            calendario.set(Calendar.MINUTE, 0);
+            calendario.set(Calendar.SECOND, 0);
+            calendario.set(Calendar.MILLISECOND, 0);
+
+            // transforma el calendario a un objeto Date
+            fecha = calendario.getTime();
         } catch (ParseException e) {
             e.printStackTrace();
         }

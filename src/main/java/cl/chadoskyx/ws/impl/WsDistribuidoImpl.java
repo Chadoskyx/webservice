@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.Map;
 import javax.jws.WebService;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +43,12 @@ public class WsDistribuidoImpl implements WsDistribuido, Serializable {
         try {
             Date fecha = FechaUtils.crearFecha(dia, mes, anio);
             Map<Date, Double> mapa = CsvUtils.leerUf("/tmp/salida.csv");
-            uf = mapa.get(fecha);
+            for ( Map.Entry<Date, Double> entrada : mapa.entrySet()) {
+                if (DateUtils.isSameDay(fecha, entrada.getKey())) {
+                    uf = entrada.getValue();
+                    break;
+                }
+            }
 
         } catch (Exception e) {
             logger.error("No pude convertir el numero: {}", e.toString());
