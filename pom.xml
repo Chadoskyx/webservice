@@ -14,20 +14,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <servlet.api.version>2.5</servlet.api.version>
         <commons.codec.version>1.9</commons.codec.version>
-        <gson.version>2.2.4</gson.version>
         <jackson.jaxrs.version>1.9.13</jackson.jaxrs.version>
         <jvm.version>1.7</jvm.version>
         <slf4j.version>1.7.7</slf4j.version>
         <log4j.version>1.2.17</log4j.version>
         <commons.lang3.version>3.3.2</commons.lang3.version>
         <spring.framework.version>4.1.1.RELEASE</spring.framework.version>
-        <cxf.version>3.0.2</cxf.version>
-        <postgresql.jdbc.version>9.3-1101-jdbc41</postgresql.jdbc.version>
-        <hibernate.jpa.version>1.0.0.Final</hibernate.jpa.version>
-        <hibernate.version>4.3.5.Final</hibernate.version>
-        <hibernate.validator.version>5.1.1.Final</hibernate.validator.version>
-        <spring.data.version>1.7.1.RELEASE</spring.data.version>
+        <cxf.version>3.0.4</cxf.version>
         <jersey.version>2.9</jersey.version>
+        <opencsv.version>2.3</opencsv.version>
     </properties>
 
     <build>
@@ -35,7 +30,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>3.3</version>
                 <configuration>
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <source>${jvm.version}</source>
@@ -121,68 +116,6 @@
             </exclusions>
         </dependency>
 
-        <!-- PostgreSQL -->
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>${postgresql.jdbc.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        
-        <!-- PERSISTENCE -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-            <version>${spring.framework.version}</version>
-        </dependency>
-
-        
-        <dependency>
-            <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.1-api</artifactId>
-            <version>${hibernate.jpa.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.version}</version>
-            <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <artifactId>hibernate-jpa-2.0-api</artifactId>
-                    <groupId>org.hibernate.javax.persistence</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>${hibernate.version}</version>
-            <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <artifactId>hibernate-jpa-2.0-api</artifactId>
-                    <groupId>org.hibernate.javax.persistence</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>${hibernate.validator.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
-            <version>${spring.data.version}</version>
-        </dependency>
-
         <!-- Servlet -->
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -227,12 +160,6 @@
         </dependency>
         
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>${gson.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
@@ -240,18 +167,12 @@
             <type>jar</type>
         </dependency>
         
-        <!--
         <dependency>
-            <groupId>org.glassfish.jersey.containers</groupId>
-            <artifactId>jersey-container-servlet</artifactId>
-            <version>2.0</version>
+            <groupId>net.sf.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>${opencsv.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.core</groupId>
-            <artifactId>jersey-client</artifactId>
-            <version>2.0</version>
-        </dependency>
-        -->
+
     </dependencies>
 
 </project>

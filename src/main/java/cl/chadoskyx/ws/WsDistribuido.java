@@ -1,12 +1,11 @@
 package cl.chadoskyx.ws;
 
-import java.util.Date;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
 /**
  *
- * @author Sebastián Salazar Molina <sebasalazar@gmail.com>
+ * @author Valery Soto Lastra <valery.soto17@gmail.com>
  */
 @WebService
 public interface WsDistribuido {

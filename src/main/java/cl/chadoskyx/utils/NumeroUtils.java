@@ -1,15 +1,14 @@
-package cl.chadoskyx.ws.utils;
+package cl.chadoskyx.utils;
 
 import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.Locale;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  *
- * @author Sebastián Salazar Molina <sebasalazar@gmail.com>
+ * @author Valery Soto Lastra <valery.soto17@gmail.com>
  */
 public class NumeroUtils implements Serializable {
 

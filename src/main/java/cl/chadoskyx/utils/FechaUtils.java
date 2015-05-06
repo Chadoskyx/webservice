@@ -1,4 +1,4 @@
-package cl.chadoskyx.ws.utils;
+package cl.chadoskyx.utils;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -69,6 +69,38 @@ public class FechaUtils implements Serializable {
     }
 
     /**
+     * Crea un objeto Calendar a partir de su año, mes y día.
+     *
+     * @param dia Día del mes
+     * @param mes Mes del año
+     * @param anio año
+     * @return un objeto calendar o null en cualquier otro caso
+     */
+    public static Calendar crearCalendario(int dia, int mes, int anio) {
+        // creamos un objeto calendario (utiliza la fecha actual)
+        Calendar calendario = new GregorianCalendar();
+        try {
+            // seteamos el día definido por el usuario
+            calendario.set(Calendar.DAY_OF_MONTH, dia);
+            // definimos el mes del usuario, los meses van de 0 a 11, por este motivo restamos 1
+            calendario.set(Calendar.MONTH, mes - 1);
+            // seteamos el año
+            calendario.set(Calendar.YEAR, anio);
+
+            // Seteamos las 0 horas, para que el objeto parte a primera hora del día
+            calendario.set(Calendar.HOUR, 0);
+            calendario.set(Calendar.MINUTE, 0);
+            calendario.set(Calendar.SECOND, 0);
+            calendario.set(Calendar.MILLISECOND, 0);
+        } catch (Exception e) {
+            // En caso de error seteo el objeto a null y logueo la excepción
+            calendario = null;
+            logger.error("Error al crear fecha: {}", e.toString());
+        }
+        return calendario;
+    }
+
+    /**
      * Obtiene la fecha como string en formato completo, desde un objeto Date
      *
      * @param fecha Fecha
@@ -97,7 +129,7 @@ public class FechaUtils implements Serializable {
         try {
             SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy", localeChileno);
             Date tiempo = formateador.parse(texto);
-            
+
             Calendar calendario = new GregorianCalendar();
             // seteamos el día definido por el usuario
             calendario.setTime(tiempo);
@@ -110,9 +142,53 @@ public class FechaUtils implements Serializable {
 
             // transforma el calendario a un objeto Date
             fecha = calendario.getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            fecha = null;
+            logger.error("Error al convertir Fecha: {}", e.toString());
         }
         return fecha;
+    }
+
+    public static Calendar convertirCalendario(String texto) {
+        Calendar calendario = new GregorianCalendar();
+        try {
+            SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy", localeChileno);
+            Date tiempo = formateador.parse(texto);
+
+            // seteamos el día definido por el usuario
+            calendario.setTime(tiempo);
+
+            // Seteamos las 0 horas, para que el objeto parte a primera hora del día
+            calendario.set(Calendar.HOUR, 0);
+            calendario.set(Calendar.MINUTE, 0);
+            calendario.set(Calendar.SECOND, 0);
+            calendario.set(Calendar.MILLISECOND, 0);
+
+        } catch (Exception e) {
+            calendario = null;
+            logger.error("Error al convertir Calendario: {}", e.toString());
+        }
+        return calendario;
+    }
+
+    /**
+     *
+     * @param fecha
+     * @return Retorna la fecha actual como String en formato yyyy-MM-dd (Ej:
+     * 1985-03-13)
+     */
+    public static String obtenerFechaISOstr(Date fecha) {
+        String fechaStr = StringUtils.EMPTY;
+        try {
+            if (fecha != null) {
+                String patron = "yyyy-MM-dd";
+                SimpleDateFormat sdf = new SimpleDateFormat(patron);
+                fechaStr = sdf.format(fecha);
+            }
+        } catch (Exception e) {
+            fechaStr = StringUtils.EMPTY;
+            logger.error("Error al obtener fecha como string: {}", e.toString());
+        }
+        return fechaStr;
     }
 }

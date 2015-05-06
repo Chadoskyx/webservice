@@ -1,10 +1,11 @@
 package cl.chadoskyx.ws.impl;
 
 import cl.chadoskyx.ws.WsDistribuido;
-import cl.chadoskyx.ws.utils.CsvUtils;
-import cl.chadoskyx.ws.utils.FechaUtils;
-import cl.chadoskyx.ws.utils.NumeroaLetra;
+import cl.chadoskyx.utils.CsvUtils;
+import cl.chadoskyx.utils.FechaUtils;
+import cl.chadoskyx.utils.NumeroaLetraUtils;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import javax.jws.WebService;
@@ -15,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * @author Sebastián Salazar Molina <sebasalazar@gmail.com>
+ * @author Valery Soto Lastra <valery.soto17@gmail.com>
  */
 @WebService(endpointInterface = "cl.chadoskyx.ws.WsDistribuido")
 public class WsDistribuidoImpl implements WsDistribuido, Serializable {
@@ -27,7 +28,12 @@ public class WsDistribuidoImpl implements WsDistribuido, Serializable {
         String texto = StringUtils.EMPTY;
         try {
             if (numero != null) {
-                texto = NumeroaLetra.convierteNumeroaLetra(numero);
+                texto = NumeroaLetraUtils.convierteNumeroaLetra(numero);
+                // Si el texto no es vacío
+                if (StringUtils.isNotBlank(texto)) {
+                    // Quito la palabra PESOS con StringUtils.remove
+                    texto = StringUtils.trimToEmpty(StringUtils.remove(texto, "PESOS"));
+                }
             }
         } catch (Exception e) {
             texto = StringUtils.EMPTY;
@@ -42,14 +48,11 @@ public class WsDistribuidoImpl implements WsDistribuido, Serializable {
         Double uf = null;
         try {
             Date fecha = FechaUtils.crearFecha(dia, mes, anio);
-            Map<Date, Double> mapa = CsvUtils.leerUf("/tmp/salida.csv");
-            for ( Map.Entry<Date, Double> entrada : mapa.entrySet()) {
-                if (DateUtils.isSameDay(fecha, entrada.getKey())) {
-                    uf = entrada.getValue();
-                    break;
-                }
+            if (fecha != null) {
+                String llave = FechaUtils.obtenerFechaISOstr(fecha);
+                Map<String, Double> mapa = CsvUtils.leerUf("/home/seba/ufs.csv");
+                uf = mapa.get(llave);
             }
-
         } catch (Exception e) {
             logger.error("No pude convertir el numero: {}", e.toString());
             logger.debug("No pude convertir el numero: {}", e.toString(), e);
