@@ -45,11 +45,13 @@ public class WsDistribuidoImpl implements WsDistribuido, Serializable {
     public Double consultarUF(int dia, int mes, int anio) {
         Double uf = null;
         try {
-            Date fecha = FechaUtils.crearFecha(dia, mes, anio);
-            String llave = FechaUtils.obtenerFechaISOstr(fecha);
-            if (StringUtils.isNoneBlank(llave)) {
-                Map<String, Double> mapa = CsvUtils.leerUf("/var/tmp/ufs.csv");
-                uf = mapa.get(llave);
+            if (FechaUtils.esFechaValida(dia, mes, anio)) {
+                Date fecha = FechaUtils.crearFecha(dia, mes, anio);
+                String llave = FechaUtils.obtenerFechaISOstr(fecha);
+                if (StringUtils.isNoneBlank(llave)) {
+                    Map<String, Double> mapa = CsvUtils.leerUf("/var/tmp/ufs.csv");
+                    uf = mapa.get(llave);
+                }
             }
         } catch (Exception e) {
             logger.error("No pude convertir el numero: {}", e.toString());

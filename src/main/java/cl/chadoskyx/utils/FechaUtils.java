@@ -2,7 +2,6 @@ package cl.chadoskyx.utils;
 
 import java.io.Serializable;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -190,5 +189,19 @@ public class FechaUtils implements Serializable {
             logger.error("Error al obtener fecha como string: {}", e.toString());
         }
         return fechaStr;
+    }
+
+    public static boolean esFechaValida(int dia, int mes, int anio) {
+        boolean ok = false;
+        try {
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            df.setLenient(false); // Desactivamos el arreglo de fechas
+            df.parse(String.format("%d/%d/%d", dia, mes, anio));
+            ok = true;
+        } catch (Exception e) {
+            ok = false;
+            logger.error("Fecha inválida: {}", e.toString());
+        }
+        return ok;
     }
 }
