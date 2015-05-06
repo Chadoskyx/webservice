@@ -5,12 +5,10 @@ import cl.chadoskyx.utils.CsvUtils;
 import cl.chadoskyx.utils.FechaUtils;
 import cl.chadoskyx.utils.NumeroaLetraUtils;
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import javax.jws.WebService;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,10 +45,11 @@ public class WsDistribuidoImpl implements WsDistribuido, Serializable {
     public Double consultarUF(int dia, int mes, int anio) {
         Double uf = null;
         try {
-            Calendar fecha = FechaUtils.crearCalendario(dia, mes, anio);
-            if (fecha != null) {
-                Map<Calendar, Double> mapa = CsvUtils.leerUf("/var/tmp/ufs.csv");
-                uf = mapa.get(fecha);
+            Date fecha = FechaUtils.crearFecha(dia, mes, anio);
+            String llave = FechaUtils.obtenerFechaISOstr(fecha);
+            if (StringUtils.isNoneBlank(llave)) {
+                Map<String, Double> mapa = CsvUtils.leerUf("/var/tmp/ufs.csv");
+                uf = mapa.get(llave);
             }
         } catch (Exception e) {
             logger.error("No pude convertir el numero: {}", e.toString());
